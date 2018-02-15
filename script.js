@@ -1,6 +1,7 @@
 var express = require('express');
 var mysql = require('mysql');
-var express = require('express')
+var express = require('express');
+var cors = require('cors');
 var connection = mysql.createConnection({
 
     host: 'localhost',
@@ -19,7 +20,7 @@ connection.connect(function(error)
     }
 
 });
-
+app.use(cors());
 app.get('/',function(req,res)
 {
 
@@ -34,6 +35,7 @@ connection.query("SELECT * FROM booking",function(error,rows,fields)
         res.status(200).json({
             success: true,
             message: 'Fetched Successfully.',
+            data:rows,
           });
     }
 

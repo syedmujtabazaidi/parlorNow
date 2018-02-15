@@ -23,7 +23,7 @@ change = (e) => {
       };
 
       handleClick(event) {
-        if((this.state.username==='vender')&&(this.state.password==='dsu') )
+        if((this.state.username==='vendor')&&(this.state.password==='dsu') )
         {
           this.props.history.push('/homevd')
         }

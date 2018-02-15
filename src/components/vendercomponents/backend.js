@@ -1,12 +1,13 @@
 var express = require('express');
 var mysql = require('mysql');
 var express = require('express')
+var cors = require('cors');
 var connection = mysql.createConnection({
 
     host: 'localhost',
     user: 'root',
     password: 'admin',
-    database: 'sampleDB'
+    database: 'parlornow'
 });
 var app = express();
 connection.connect(function(error)
@@ -19,6 +20,7 @@ connection.connect(function(error)
     }
 
 });
+app.use(cors());
 console.log('Enter Data Base');
 app.get('/',function(req,resp)
 {
@@ -31,6 +33,11 @@ connection.query("SELECT * FROM mySampleTable",function(error,rows,fields)
     else{
         console.log('Successful query');
         console.log(rows);
+        res.status(200).json({
+            success: true,
+            message: 'Fetched Successfully.',
+            data:rows,
+          });
     }
 
 });
