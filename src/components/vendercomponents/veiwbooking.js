@@ -13,82 +13,102 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
-
+var a = [];
 class VeiwBooking extends Component {
   constructor(){
     super()
+     
     this.state={
-      myData:[],
-      myInfo : {
-        fName:'',
-        lName:'',
-        e_mail:'',
-        password:'',
-        cPassword:''
-    },
+      parlourdata:[]
+       
     }
   }
-  componentDidMount(){
-    // for (let i=0;i<10;i++){
-    //   this.state.myData.push(i);
-    // }
-//
-   //[{name:"",no:""},{name:"",no:""},{name:"",no:""},{name:"",no:""}]
+  componentDidMount()
+  {
 
-        axios.get('http://localhost:1337')
-        .then(function (response) {
-          console.log('response from axios'+response);
+        axios.get('http://localhost:1337/')
+        .then((response)=>
+         { 
+          if(response!='null')
+          {
+            console.log('response from axios'+JSON.stringify(response.data));
+            // y line execute he nai kr rha y 
+            for (var i = 0; i < response.data.data.length; i++) {
+              //this.state.parlourdata[i].push(response.data.data[i]);
+              console.log(response.data.data[i])
+              this.state.parlourdata[i] = response.data.data[i];
+              //this.setState.parlourdata[i] = response.data.data[i];
+
+              
+            }
+            //this.state.parlourdata.push(response.data.data);
+              /*this.setState=({
+               parlourdata:response.data.data, 
+              })*/
+            
+        console.log("parlour data from mount"+JSON.stringify(this.state.parlourdata[0]))
+            
+          
+           
+           // var myObject = JSON.parse(response.data);
+         //console.log(response.data.data.length)
+           
+         
+           console.log("main chal gya")
+        
+            
+            
+          }
+          console.log("if mie nai gaya ")
         })
-        .catch(function (error) {
-          console.log("error from axios"+error);
+        .catch(function (error)
+        {
+          console.log("error from axios");
         });
-  }
-  inputChange(changeValue,event){
-    
-       this.state.myInfo[changeValue] = event.target.value;
-   this.setState({
-           myInfo : this.state.myInfo
-       });
-   
-   }
+    };
+ 
   render() {
-    
-    for (let i=0;i<10;i++){
-      this.state.myData.push(i);
-    }
     return (
+      
       <div>
-        <Drawervd {...this.props}/>           
-         <MuiThemeProvider>     
+         
+        <Drawervd {...this.props}/>   
+                
+         <MuiThemeProvider>
+         
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHeaderColumn></TableHeaderColumn>
                 <TableHeaderColumn>BOOKING ID</TableHeaderColumn>
                 <TableHeaderColumn>CUSTOMER ID</TableHeaderColumn>
                 <TableHeaderColumn>BOOKING DATE</TableHeaderColumn>
-                <TableHeaderColumn>BOOKING TIME</TableHeaderColumn>
+                <TableHeaderColumn>BOOKING  TIME</TableHeaderColumn>
                 <TableHeaderColumn>SERVICE</TableHeaderColumn>
               </TableRow>
             </TableHeader>
-          </Table>
-      </MuiThemeProvider>
-      {this.state.myData.map((item,index) => (
-      <MuiThemeProvider>
-      <Table>
-       
+            
       <TableBody>
-        <TableRow>
-          <TableRowColumn key={index}>{item}</TableRowColumn>
-          <TableRowColumn>CS132032</TableRowColumn>
-          <TableRowColumn>20/12/17</TableRowColumn>
-          <TableRowColumn>9:30AM</TableRowColumn>
-          <TableRowColumn>Waxing</TableRowColumn>
+      <TableRow>
+      
+        <TableRowColumn>{("parlour data from mount"+JSON.stringify(this.state.parlourdata))}</TableRowColumn>
         </TableRow>
+            {this.state.parlourdata.map((item,index) => (  
+        <TableRow key={index}>
+        <TableRowColumn>{index}</TableRowColumn>
+          <TableRowColumn>{item.bookingId} </TableRowColumn>
+          <TableRowColumn>{item.customerId}</TableRowColumn>
+          <TableRowColumn>{item.bookingDate}</TableRowColumn>
+          <TableRowColumn>{item.bookingTime}</TableRowColumn>
+          <TableRowColumn>{item.packageName}</TableRowColumn>
+    
+        </TableRow>
+    ))}
         </TableBody>
+       
         </Table>
-        </MuiThemeProvider>
-        
-      ))}
+     
+      </MuiThemeProvider>
       </div>
     );
   }
